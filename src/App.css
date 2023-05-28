@@ -1,0 +1,270 @@
+body {
+  background-color: #f9f871;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #fff;
+  overflow: hidden;
+}
+
+.App-header {
+  background-color: #ffd700;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 60px;
+  width: 100%;
+}
+
+.title {
+  font-size: 24px;
+  margin: 0;
+}
+
+.sidebar {
+  background-color: #ffd700;
+  width: 250px;
+  padding: 20px;
+  flex: 0 0 250px;
+}
+
+.main-content {
+  background-color: #fff;
+  flex: 1;
+  padding: 20px;
+  margin-left: 10px;
+}
+
+.movie-review {
+  background-color: #fffacd;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.movie-review h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.movie-review p {
+  margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+  .App {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .app {
+    display: flex;
+  }
+  
+  .sidebar {
+    flex: 0 0 200px;
+  }
+  
+  .menu {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .website-title {
+    margin-top: 0;
+  }
+  
+}
+
+.button-style {
+	box-shadow:inset 0px 1px 0px 0px #fff6af;
+	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+	background-color:#ffec64;
+	border-radius:6px;
+	border:1px solid #ffaa22;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffee66;
+}
+.button-style:hover {
+	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	background-color:#ffab23;
+}
+.button-style:active {
+	position:relative;
+	top:1px;
+}
+
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background-color: #ffefb5; /* Yellow tone color for background */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.popup-content {
+  /* Styles for the popup content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup-content h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.popup-content form {
+  width: 100%;
+}
+
+.popup-content label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.popup-content input,
+.popup-content textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.popup-content button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.popup-content button.button-style {
+  background-color: blue;
+  color: white;
+}
+
+.popup-content button.button-style.cancel-button {
+  background-color: red;
+  margin-right: 10px;
+}
+
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkbox-input {
+  display: none;
+}
+
+.checkbox-custom {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-right: 8px;
+  background-color: #fff;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,700&display=swap');
+
+.movie-title {
+  font-family: 'Josefin Sans', sans-serif;
+  /* Additional styles such as color, size, etc. */
+}
+
+.copyright {
+  background-color: #f2da09; /* Darker yellow color for background */
+  color: #000; /* Black font color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+  /* Additional styles such as font-size, padding, etc. */
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.pagination-dropdown {
+  margin-right: 10px;
+}
+
+.pagination-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.pagination-list li {
+  margin-right: 5px;
+}
+
+.pagination-list button {
+  padding: 5px 10px;
+  background-color: #ccc;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination-list button.active {
+  background-color: #999;
+}
+
+.pagination-list button:hover {
+  background-color: #999;
+}
+
+.pagination-list button:focus {
+  outline: none;
+}
+
+.pagination-list button:disabled {
+  cursor: not-allowed;
+}
