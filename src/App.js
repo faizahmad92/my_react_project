@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 const MainPage = () => {
+  //stating variables
   const [movieReviews, setMovieReviews] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [newMovie, setNewMovie] = useState({
@@ -17,14 +18,14 @@ const MainPage = () => {
   const [deleteMessage, setDeleteMessage] = useState('');
   const [selectedMovie, setSelectedMovie] = useState(null);
 
-
   useEffect(() => {
     fetchMovieReviews();
   }, []);
 
+  //fetch movie reviews data from backend server.
   const fetchMovieReviews = async () => {
     try {
-      const response = await fetch('http://172.19.160.1:3001/api/movie-reviews');
+      const response = await fetch('http://localhost:3001/api/movie-reviews');
       if (!response.ok) {
         throw new Error('Failed to fetch movie reviews');
       }
@@ -51,9 +52,10 @@ const MainPage = () => {
   };
   
 
+     // Submit the new movie review to the server
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://172.19.160.1:3001/api/movie-reviews', {
+    fetch('http://localhost:3001/api/movie-reviews', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -70,13 +72,14 @@ const MainPage = () => {
       .catch((error) => {
         console.error('Error inserting movie review:', error);
       });
+
+       // Display success message
       setSuccessMessage('Movie review successfully added!');
       setTimeout(() => {
         setSuccessMessage('');
-      }, 2000); // Delay of 2000 milliseconds (2 seconds)
+      }, 2000); // Delay the message for 2 seconds before disappear
 
      //clear form with pre-filled old data.
-
       setNewMovie({
         title: '',
         rating: '',
@@ -93,38 +96,7 @@ const MainPage = () => {
     }
   };
 
-  const handleUpdateSelected = async () => {
-    if (selectedReviews.length === 0) {
-      return;
-    }
   
-    try {
-      const response = await fetch('http://172.19.160.1:3001/api/movie-reviews/update-selected', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          selectedReviews,
-          title: newMovie.title,
-          rating: newMovie.rating,
-          review: newMovie.review,
-          reviewer: newMovie.reviewer,
-        }),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Failed to fetch selected movie reviews');
-      }
-  
-      const selectedMovieReviews = await response.json();
-      setSelectedMovie(selectedMovieReviews[0]);
-      togglePopup();
-    } catch (error) {
-      console.error('Error fetching selected movie reviews:', error);
-    }
-  };
-
 
   const handleDeleteSelected = () => {
     if (selectedReviews.length === 0) {
@@ -133,7 +105,7 @@ const MainPage = () => {
   
     const confirmation = window.confirm('Are you sure you want to delete the selected reviews?');
     if (confirmation) {
-      fetch('http://172.19.160.1:3001/api/movie-reviews', {
+      fetch('http://localhost:3001/api/movie-reviews', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -174,7 +146,7 @@ const MainPage = () => {
         </h1>
       </header>
 
-<div className="movie-review-list">
+      <div className="movie-review-list">
   {currentReviews.map((review) => (
     <div className="movie-review" key={review.id}>
       <h2 className="movie-title">
@@ -185,12 +157,14 @@ const MainPage = () => {
         />
         {review.title}
       </h2>
-      <p>Rating: {review.rating}</p>
-      <p> {review.review}</p>
-      <p>Reviewed by: {review.reviewer}</p>
+      <p className="movie-info">Rating: {review.rating}</p>
+      <p className="movie-info">{review.review}</p>
+      <p className="movie-info">Genre: {review.genre}</p>
+      <p className="movie-info">Reviewed by: {review.reviewer}</p>
     </div>
   ))}
 </div>
+
 
 
 {/* Pagination */}
@@ -217,11 +191,11 @@ const MainPage = () => {
   )}
 </div>
 
-
+ {/* Buttons for adding and deleting reviews */}
       <button onClick={togglePopup} className="button-style">Add Movie Review</button>
       <button onClick={handleDeleteSelected}className="button-style">Delete Selected</button>
-      <button onClick={handleUpdateSelected} className="button-style">Update Selected</button>
 
+ {/* Popup for adding a review */}
       {showPopup && (
   <div className="popup">
     <div className="popup-content">
@@ -255,6 +229,21 @@ const MainPage = () => {
             value={newMovie.review}
             onChange={handleInputChange}
           />
+        </div>        
+        <div>
+          <label htmlFor="genre">Genre:</label><br></br>
+          <select
+            id="genre"
+            name="genre"
+            value={newMovie.genre}
+            onChange={handleInputChange}
+          >
+            <option value=" "> </option>
+            <option value="action">Action</option>
+            <option value="mystery">Mystery</option>
+            <option value="drama">Drama</option>
+            <option value="animation">Animation</option>
+          </select>
         </div>
         <div>
           <label htmlFor="reviewer">Reviewer:</label>
@@ -266,16 +255,14 @@ const MainPage = () => {
             onChange={handleInputChange}
           />
         </div>
-        <div>
-          <button type="submit" className="button-style">Submit</button>
-          <button type="button" onClick={togglePopup} className="button-style">Cancel</button>
-        </div>
+        <button type="submit" className="button-style">Submit</button>
+        <button type="button" onClick={togglePopup} className="button-style">Cancel</button>
       </form>
     </div>
   </div>
 )}
 
-
+{/* Popup for success message */}
 {successMessage && (
         <div className="popup">
           <div className="popup-content success">
@@ -285,6 +272,7 @@ const MainPage = () => {
         </div>
       )}
 
+ {/* Popup for delete message */}
 {deleteMessage && (
         <div className="popup">
           <div className="popup-content delete">

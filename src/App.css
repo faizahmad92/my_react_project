@@ -44,7 +44,7 @@ body {
 
 .movie-review {
   background-color: #fffacd;
-  padding: 20px;
+  padding: 10px;
   margin-bottom: 20px;
   border-radius: 8px;
 }
@@ -211,6 +211,11 @@ body {
 
 .movie-title {
   font-family: 'Josefin Sans', sans-serif;
+  /* Additional styles such as color, size, etc. */
+}
+
+.movie-info {
+  font-family: 'Barlow';
   /* Additional styles such as color, size, etc. */
 }
 

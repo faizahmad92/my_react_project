@@ -1,10 +1,16 @@
+
+//importing required dependencies
 const cors = require('cors');
 const express = require('express');
-const { Pool } = require('pg');
 
+//create instance for express application
 const app = express();
+
+//configure port servers
 const port = 3001;
 
+//pgsql database connection setting
+const { Pool } = require('pg');
 const pool = new Pool({
   user: 'postgres',
   password: 'abc123',
@@ -13,9 +19,12 @@ const pool = new Pool({
   database: 'movie',
 });
 
+//enable Cross-Origin Resource Sharing
 app.use(cors());
-app.use(express.json()); // Parse JSON request body
+// Parse JSON request body
+app.use(express.json()); 
 
+//API for fetch data from database
 app.get('/api/movie-reviews', async (req, res) => {
   try {
     const client = await pool.connect();
@@ -29,13 +38,14 @@ app.get('/api/movie-reviews', async (req, res) => {
   }
 });
 
+//API for inserting data into database
 app.post('/api/movie-reviews', async (req, res) => {
   try {
-    const { title, rating, review, reviewer } = req.body;
+    const { title, rating, review, reviewer ,genre} = req.body;
     const client = await pool.connect();
     const result = await client.query(
-      'INSERT INTO movies (title, rating, review, reviewer) VALUES ($1, $2, $3, $4) RETURNING *',
-      [title, rating, review, reviewer]
+      'INSERT INTO movies (title, rating, review, reviewer ,genre) VALUES ($1, $2, $3, $4 ,$5) RETURNING *',
+      [title, rating, review, reviewer,genre]
     );
     const newMovieReview = result.rows[0];
     client.release();
@@ -46,6 +56,7 @@ app.post('/api/movie-reviews', async (req, res) => {
   }
 });
 
+//API for data deletion from database
 app.delete('/api/movie-reviews', async (req, res) => {
   try {
     const { ids } = req.body;
@@ -60,28 +71,7 @@ app.delete('/api/movie-reviews', async (req, res) => {
   }
 });
 
-app.patch('/api/movie-reviews/update-selected', async (req, res) => {
-  try {
-    const { selectedReviews, title, rating, review, reviewer } = req.body;
-    const client = await pool.connect();
-    const updatePromises = selectedReviews.map(async (reviewId) => {
-      const result = await client.query(
-        'UPDATE movies SET title = $1, rating = $2, review = $3, reviewer = $4 WHERE id = $5 RETURNING *',
-        [title, rating, review, reviewer, reviewId]
-      );
-      return result.rows[0];
-    });
-    const updatedMovieReviews = await Promise.all(updatePromises);
-    client.release();
-    res.json(updatedMovieReviews);
-  } catch (error) {
-    console.error('Error updating selected movie reviews:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-
-
+//starting backend server
 app.listen(port, () => {
   console.log(`Backend API server is running on http://localhost:${port}`);
 });
